@@ -1,0 +1,21 @@
+@import url(./iconfont.css);
+
+.mg-mini{
+    margin-top: 10px;
+}
+
+.mg-small{
+    margin-top: 15px;
+}
+
+.mg-medium{
+    margin-top: 20px;
+}
+
+.border-radius{
+    border-radius: 4px;
+}
+
+.pointer{
+    cursor: pointer;
+}
