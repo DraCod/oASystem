@@ -1,24 +1,36 @@
 import axios from 'axios';
-// import vue from 'vue';
+import Router from '@/router';
 
-export const server = axios.create({
+export const request = axios.create({
     baseURL:'http://localhost:7001',
     timeout:5000,
 })
 
 //请求拦截
-server.interceptors.request.use(config=>{
+request.interceptors.request.use(config=>{
+    const token = window.localStorage.getItem('token')
+    // console.log(token);
+    if(token){
+        config.headers.token=token;
+    }
     return config
 })
 
 //响应拦截
-server.interceptors.response.use(respone=>{
-    return respone
+request.interceptors.response.use(respone=>{
+    return respone.data
 },err=>{
-    console.dir(err)
+    // console.dir(err)
+    //判断状态码
+    if(err.response.status === 401){
+        Router.push('/login')
+        // 利用路由实例跳转
+    }
     if(err.response.status === 402){
+        //处理错误信息
         alert(err.response.data.message)
     }
     return err
 })
 
+// exports.request= server

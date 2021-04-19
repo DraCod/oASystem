@@ -3,11 +3,21 @@
         <div class="login-content">
             <h1>登录</h1>
             <div class="mg-medium">
-                <input v-model="form.account" type="text" class="border-radius" placeholder="用户名">
+                <input 
+                    v-model="form.account" 
+                    @blur="blur('account')"
+                    type="text"
+                    class="border-radius" 
+                    placeholder="用户名">
                 <span :class="['small',formError.account?'error':'']">请输入用户名</span>
             </div>
             <div class="mg-medium">
-                <input v-model="form.password" type="password" class="border-radius" placeholder="密码">
+                <input 
+                    v-model="form.password" 
+                    @blur="blur('password')"
+                    type="password" 
+                    class="border-radius" 
+                    placeholder="密码">
                 <span :class="['small',formError.password?'error':'']">请输入密码</span>
             </div>
             <div class="submit mg-medium border-radius pointer" @click="submit">
@@ -18,7 +28,8 @@
 </template>
 
 <script>
-import {server} from '@/utils/http.js'
+// import request from '@/utils/http.js'
+import {login} from '@/api/login.js'
 export default {
     data(){
         return{
@@ -33,7 +44,7 @@ export default {
         }
     },
     mounted(){
-        
+        // console.log(request)
     },
     methods:{
         validate(){
@@ -52,11 +63,25 @@ export default {
             }
             return bool
         },
+        blur(key){
+            if(this.form[key]){
+                this.formError[key] = false;
+            }else{
+                this.formError[key] = true;
+            }
+        },
         submit(){
             if(this.validate()){
-                server.post('/login',this.form).then(res=>{
-                    console.log(res);
+                login(this.form).then(res=>{
+                    // console.log(res)
+                    window.localStorage.setItem('token',res.data);
+                    this.$router.replace('/home')
                 })
+                // this.$router.push('/login')
+                // test();
+                // server.post('/login',this.form).then(res=>{
+                //     console.log(res);
+                // })
             }
         }
     }
@@ -93,12 +118,14 @@ export default {
                 line-height: 40px;
                 color: #555;
                 border: 1px solid #ccc;
+                font-size: 14px;
                 &:hover{
                     background-color: #f7f7f7;
                 }
             }
             .mg-medium{
                 position: relative;
+              
             }
             .small{
                 font-size: 12px;
@@ -111,6 +138,7 @@ export default {
                 transition: transform 0.3s;
                 &.error{
                     transform: translateY(100%);
+                    
                 }
             }
         }

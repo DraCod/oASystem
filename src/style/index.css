@@ -1,5 +1,10 @@
 @import url(./iconfont.css);
 
+/* 设置进度条的颜色 */
+#nprogress .bar {
+    background: #f66495 !important;
+}
+
 .mg-mini{
     margin-top: 10px;
 }
@@ -19,3 +24,4 @@
 .pointer{
     cursor: pointer;
 }
+
