@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Router from '@/router';
+import {Message} from 'element-ui';
 
 export const request = axios.create({
     baseURL:'http://localhost:7001',
@@ -28,7 +29,8 @@ request.interceptors.response.use(respone=>{
     }
     if(err.response.status === 402){
         //处理错误信息
-        alert(err.response.data.message)
+        Message.error(err.response.data.message)
+        // alert(err.response.data.message)
     }
     throw err
     // return err

@@ -74,6 +74,7 @@ export default {
             if(this.validate()){
                 login(this.form).then(res=>{
                     window.localStorage.setItem('token',res.data);
+                    this.$message.success(res.message);
                     this.$router.replace('/person');
                 })
             }

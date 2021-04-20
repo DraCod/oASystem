@@ -4,7 +4,10 @@ import {
   Menu,
   Submenu,
   MenuItem,
-  MenuItemGroup
+  MenuItemGroup,
+  Breadcrumb,
+  BreadcrumbItem,
+  Message
  } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'mini'};
@@ -12,3 +15,7 @@ Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+
+Vue.prototype.$message = Message;
