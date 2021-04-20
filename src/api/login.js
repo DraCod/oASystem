@@ -1,5 +1,6 @@
 import {request} from '@/utils/http.js'
 
+//登录
 export const login = function(data){
     return request({
         url:'/login',
@@ -8,9 +9,15 @@ export const login = function(data){
     })
 }
 
-export const test = function(){
+// export const test = function(){
+//     return request({
+//         url:'/test',
+//         method:"POST"
+//     })
+// }
+
+export const getRouter = function(){
     return request({
-        url:'/test',
-        method:"POST"
+        url:'/router-init',
     })
 }

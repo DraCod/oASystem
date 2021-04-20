@@ -30,7 +30,8 @@ request.interceptors.response.use(respone=>{
         //处理错误信息
         alert(err.response.data.message)
     }
-    return err
+    throw err
+    // return err
 })
 
 // exports.request= server

@@ -34,8 +34,8 @@ export default {
     data(){
         return{
             form:{
-                account:'',
-                password:''
+                account:'123',
+                password:'123'
             },
             formError:{
                 account:false,
@@ -73,15 +73,9 @@ export default {
         submit(){
             if(this.validate()){
                 login(this.form).then(res=>{
-                    // console.log(res)
                     window.localStorage.setItem('token',res.data);
-                    this.$router.replace('/home')
+                    this.$router.replace('/person');
                 })
-                // this.$router.push('/login')
-                // test();
-                // server.post('/login',this.form).then(res=>{
-                //     console.log(res);
-                // })
             }
         }
     }
