@@ -57,7 +57,8 @@ export default {
             }
         }
         .page-right{
-            flex: 1;
+            // flex: 1;
+            width: calc(100vw - 240px);
             .page-title{
                 height: 50px;
                 display: flex;

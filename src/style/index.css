@@ -25,3 +25,7 @@
     cursor: pointer;
 }
 
+.el-button--primary{
+    background-color: #00a1d6!important;
+    border-color: #00a1d6!important;
+}

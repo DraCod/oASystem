@@ -12,11 +12,13 @@ const routes = [
     redirect:'/login'
   },
   {
+    //登录
     path: '/login',
     name: 'login',
     component: ()=>import('@/views/login/index.vue'),
   },
   {
+    //给个人中心
     path:'/',
     component:layout,
     children:[
@@ -27,12 +29,24 @@ const routes = [
     ]
   },
   {
+    //账号列表
     path:'/',
     component:layout,
     children:[
       {
         path:'account',
         component: ()=>import('@/views/account/index.vue')
+      }
+    ]
+  },
+  {
+    //路由列表
+    path:'/',
+    component:layout,
+    children:[
+      {
+        path:'router-list',
+        component: ()=>import('@/views/router/index.vue')
       }
     ]
   }

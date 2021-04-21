@@ -7,7 +7,18 @@ import {
   MenuItemGroup,
   Breadcrumb,
   BreadcrumbItem,
-  Message
+  Message,
+  MessageBox,
+  Table,
+  TableColumn,
+  Button,
+  Loading,
+  Dialog,
+  Form,
+  FormItem,
+  Input,
+  Select,
+  Option,
  } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'mini'};
@@ -17,5 +28,20 @@ Vue.use(MenuItem);
 Vue.use(MenuItemGroup);
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Button);
+Vue.use(Loading.directive);
+Vue.use(Dialog);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Input);
+Vue.use(Select);
+Vue.use(Option);
 
 Vue.prototype.$message = Message;
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;

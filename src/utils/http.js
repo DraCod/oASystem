@@ -25,6 +25,7 @@ request.interceptors.response.use(respone=>{
     //判断状态码
     if(err.response.status === 401){
         Router.push('/login')
+        Message.error(err.response.data.message)
         // 利用路由实例跳转
     }
     if(err.response.status === 402){

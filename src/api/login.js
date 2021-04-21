@@ -16,6 +16,7 @@ export const login = function(data){
 //     })
 // }
 
+//初始话首页可见路由
 export const getRouter = function(){
     return request({
         url:'/router-init',
