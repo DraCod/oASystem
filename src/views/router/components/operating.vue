@@ -28,10 +28,6 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-        <!-- <el-form-item slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item> -->
     </el-form>
 
 
@@ -59,9 +55,7 @@ export default {
                 parents:'',
             },
             rules:{
-                // path:[{ required: true, message: '请输入路径', trigger: 'blur' }],
                 label:[{ required: true, message: '名称', trigger: 'blur' }],
-                // parents:[{ required: true, message: '请选择', trigger: 'change' }]
             },
             list:[],
             loading:false
@@ -72,7 +66,6 @@ export default {
     },
     methods:{
         search(label){
-            console.log(label)
             this.loading = true;
             getAllRouter({
                 label
