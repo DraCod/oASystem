@@ -44,7 +44,7 @@
             </el-table-column>
         </el-table>
 
-        <operating v-model="operatingDialog" :list="list"></operating>
+        <operating v-model="operatingDialog" @init="search" :editRow="editRow" :isEdit="isEdit"></operating>
     </div>
 </template>
 
@@ -55,7 +55,9 @@ export default {
         return{
             loading:false,
             list:[],
-            operatingDialog:false
+            operatingDialog:false,
+            editRow:{},//需要编辑的列表数据
+            isEdit:false,//是否为编辑
         }
     },
     mounted(){
@@ -65,12 +67,18 @@ export default {
         search(){
             this.loading = true
             getAllRouter().then(res=>{
-                this.list = res.data
+                this.list = res.data.rows
                 this.loading = false
             })
         },
         add(){
             this.operatingDialog = true;
+            this.isEdit= false;
+        },
+        edit(row){
+            this.editRow=row;
+            this.operatingDialog = true;
+            this.isEdit = true;
         }
     },
     filters:{
