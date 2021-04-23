@@ -49,6 +49,17 @@ const routes = [
         component: ()=>import('@/views/router/index.vue')
       }
     ]
+  },
+  {
+    //角色列表
+    path:'/',
+    component:layout,
+    children:[
+      {
+        path:'purview-list',
+        component: ()=>import('@/views/purview/index.vue')
+      }
+    ]
   }
 ]
 
