@@ -3,7 +3,7 @@
         <div>
             <el-button @click="search" type="primary">搜索</el-button>
         </div>
-        <div>
+        <div class="mg-small">
             <el-button type="primary" @click="add">添加</el-button>
         </div>
         <el-table
@@ -40,6 +40,7 @@
                 label="操作">
                 <template slot-scope="scope">
                     <el-button @click="edit(scope.row)" type="primary">编辑</el-button>
+                    <el-button @click="deleteRow(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import {getAllRouter} from '@/api/router.js'
+import {getAllRouter,deleteRouter} from '@/api/router.js'
 export default {
     data(){
         return{
@@ -79,11 +80,23 @@ export default {
             this.editRow=row;
             this.operatingDialog = true;
             this.isEdit = true;
-        }
-    },
-    filters:{
-        filterTime(val){
-            return new Date(val).toLocaleString()
+        },
+        deleteRow(row){
+            this.$confirm(`此操作将永久删除该${row.label}, 是否继续?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deleteRouter(row.id).then(res=>{
+                    this.$message.success(res.message);
+                    this.search();
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });     
+            })
         }
     },
     components:{

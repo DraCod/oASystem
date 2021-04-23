@@ -26,3 +26,11 @@ export const editRouter = function(data){
         method:'POST'
     })
 }
+
+//删除路由
+export const deleteRouter = function(id){
+    return request({
+        url:`/delete-router/${id}`,
+        method:"DELETE"
+    })
+}
