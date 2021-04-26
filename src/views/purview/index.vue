@@ -4,7 +4,7 @@
             <el-button type="primary" @click="search">搜索</el-button>
         </div>
         <div class="mg-small">
-            <el-button type="primary">添加</el-button>
+            <el-button type="primary" @click="isAdd">添加</el-button>
         </div>
         <el-table
             v-loading='loading'
@@ -44,6 +44,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <operating v-model="operatingDialog"></operating>
     </div>
 </template>
 
@@ -54,14 +55,24 @@ export default {
         return{
             loading:false,
             list:[],
+            operatingDialog:false,
         }
+    },
+    mounted(){
+        this.search();
     },
     methods:{
         search(){
             getPurviewList().then(res=>{
                 this.list = res.data
             })
+        },
+        isAdd(){
+            this.operatingDialog=true;
         }
     },
+    components:{
+        operating:require('./components/operating.vue').default,//添加 编辑对话框
+    }
 }
 </script>

@@ -19,6 +19,8 @@ import {
   Input,
   Select,
   Option,
+  Checkbox,
+  CheckboxGroup,
  } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'mini'};
@@ -38,6 +40,8 @@ Vue.use(FormItem);
 Vue.use(Input);
 Vue.use(Select);
 Vue.use(Option);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
 
 Vue.prototype.$message = Message;
 Vue.prototype.$loading = Loading.service;

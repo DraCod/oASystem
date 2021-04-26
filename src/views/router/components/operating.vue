@@ -28,9 +28,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-    </el-form>
-
-
+        </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialog = false">取 消</el-button>
             <el-button type="primary" @click="submit">确 定</el-button>
