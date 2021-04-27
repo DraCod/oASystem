@@ -25,3 +25,28 @@ export const addPurview = function(data){
         data
     })
 }
+
+
+//角色详情
+export const purviewDetail = function(id){
+    return request({
+        url:`/purview-detail/${id}`
+    })
+}
+
+//编辑角色
+export const editPurview = function(data){
+    return request({
+        url:'/edit-purview',
+        method:'POST',
+        data
+    })
+}
+
+//删除角色
+export const deletePurview = function(id){
+    return request({
+        url:`/delete-purview/${id}`,
+        method:'DELETE'
+    })
+}

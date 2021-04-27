@@ -43,19 +43,30 @@
                      {{scope.row.created_at|filterTime}}
                 </template>
             </el-table-column>
+            <el-table-column
+                label="操作">
+                <template slot-scope="scope">
+                    <div v-if="scope.row.routerId!='0'">
+                        <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
+                        <el-button type="danger" @click="deletePurview(scope.row)">删除</el-button>
+                    </div>
+                </template>
+            </el-table-column>
         </el-table>
-        <operating v-model="operatingDialog"></operating>
+        <operating v-model="operatingDialog" :edit="isEdit" :row="row" @init="search"></operating>
     </div>
 </template>
 
 <script>
-import {getPurviewList} from '@/api/purview.js'
+import {getPurviewList,deletePurview} from '@/api/purview.js'
 export default {
     data(){
         return{
             loading:false,
             list:[],
             operatingDialog:false,
+            isEdit:false,
+            row:{}
         }
     },
     mounted(){
@@ -69,6 +80,29 @@ export default {
         },
         isAdd(){
             this.operatingDialog=true;
+            this.isEdit = false
+        },
+        edit(row){
+            this.isEdit = true;
+            this.operatingDialog = true;
+            this.row = row;
+        },
+        deletePurview(row){
+             this.$confirm(`此操作将永久删除该${row.purview}, 是否继续?`, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                deletePurview(row.id).then(res=>{
+                    this.$message.success(res.message);
+                    this.search();
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });     
+            })
         }
     },
     components:{

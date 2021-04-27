@@ -6,11 +6,12 @@
         :visible.sync="dialog"
         @open="open">
          <el-form 
-            :model="form" 
-            :rules="rules" 
             ref="ruleForm" 
             label-width="100px" 
-            class="demo-ruleForm">
+            class="demo-ruleForm"
+            v-loading="loading"
+            :model="form" 
+            :rules="rules" >
             <el-form-item label="权限名称" prop="purview">
                 <el-input v-model="form.purview"></el-input>
             </el-form-item>
@@ -39,9 +40,9 @@
 </template>
 
 <script>
-import {routerTree,addPurview} from '@/api/purview'
+import {routerTree,addPurview,purviewDetail,editPurview} from '@/api/purview'
 export default {
-    props:['value'],
+    props:['value','edit','row'],
     data(){
         return{
             dialog:false,
@@ -52,20 +53,8 @@ export default {
                 purview:[{ required: true, message: '权限名称必填', trigger: 'blur' }],
             },
             router_list:[],
+            loading:false
         }
-    },
-    mounted(){
-        routerTree().then(res=>{
-            this.router_list=res.data.map(row=>{
-                row.check=false
-                if(row.children){
-                    row.isIndeterminate = false;
-                    row.checkList = []
-                    row.children.forEach(ro=>ro.check=false)
-                }
-                return row
-            })
-        })
     },
     methods:{
         submit(){
@@ -78,21 +67,38 @@ export default {
                         }
                         if(row.checkList&&row.checkList.length>0){
                             router.push(...row.checkList)
+                            router.push(row.id)
                         }
                     })
-                    addPurview({
-                        purview:this.form.purview,
-                        router
-                    }).then(res=>{
-                        this.$message.success(res.message);
-                        this.dialog =false;
-                    })
+                    if(this.edit){
+                        editPurview({
+                            router,
+                            id:this.row.id,
+                            purview:this.form.purview
+                        }).then(res=>{
+                            this.$message.success(res.message);
+                            this.dialog =false;
+                            this.$emit('init')
+                        })
+                    }else{
+                        addPurview({
+                            purview:this.form.purview,
+                            router
+                        }).then(res=>{
+                            this.$message.success(res.message);
+                            this.dialog =false;
+                            this.$emit('init')
+                        })
+                    }
                 }else{
                     return false
                 }
             })
         },
         isChange(row){
+            (row.checkList.length>0&&row.checkList.length!=row.children.length)?
+            row.isIndeterminate = true:
+            row.isIndeterminate = false;
             (row.checkList.length==row.children.length)?
             row.check = true:
             row.check = false;
@@ -100,14 +106,60 @@ export default {
         checkAll(row){
             if(row.check){
                 row.checkList = row.children.map(ro=>ro.id)
+                row.isIndeterminate = false
             }else{
                 row.checkList = []
             }
+        },
+        getRouterTree(){
+            this.loading = true
+            routerTree().then(res=>{
+                this.router_list=res.data.map(row=>{
+                    row.check=false
+                    if(row.children){
+                        row.isIndeterminate = false;
+                        row.checkList = []
+                        row.children.forEach(ro=>ro.check=false)
+                    }
+                    return row
+                })
+                this.loading = false
+            })
         },
         open(){
             this.$nextTick(()=>{
                 this.$refs['ruleForm'].resetFields();
             })
+            if(this.edit){
+                purviewDetail(this.row.id).then(res=>{
+                     this.router_list=res.data.tree.map(row=>{
+                        if(row.children){
+                            row.isIndeterminate = false
+                            row.children.forEach(ro=>{
+                                if(ro.check){
+                                    row.isIndeterminate = true;
+                                    if(row.checkList){
+                                        row.checkList.push(ro.id)
+                                    }else{
+                                        row.checkList=[ro.id]
+                                    }
+                                }
+                            })
+                            if(!row.checkList){
+                                row.checkList=[]
+                            }
+                            if(row.checkList.length===row.children.length){
+                                row.isIndeterminate = false
+                                row.check = true;
+                            }
+                        }
+                        return row
+                    })
+                    this.form.purview = res.data.purview
+                })
+            }else{
+                this.getRouterTree();
+            }
         },
         handleClose(done) {
             this.$confirm('确认关闭？')
