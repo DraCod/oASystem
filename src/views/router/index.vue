@@ -40,7 +40,7 @@
                 label="操作">
                 <template slot-scope="scope">
                     <el-button @click="edit(scope.row)" type="primary">编辑</el-button>
-                    <el-button @click="deleteRow(scope.row)">删除</el-button>
+                    <el-button @click="deleteRow(scope.row)" type="danger">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
